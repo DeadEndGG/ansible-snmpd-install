@@ -1,0 +1,13 @@
+- name: Open snmpd service in firewall
+  firewalld:
+    service: "{{ snmp_service_name }}"
+    permanent: true
+    state: enabled
+  become: true
+  when: 
+    - firewalld_status.stdout == "active"
+    - snmp_service.stdout == "no"
+    - ('RedHat' in ansible_distribution and ('8' in ansible_distribution_major_version or '9' in ansible_distribution_major_version))
+
+- debug:
+    var: snmp_service.stdout

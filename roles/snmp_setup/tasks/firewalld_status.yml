@@ -1,0 +1,7 @@
+- name: Check the status of firewalld
+  command:
+    cmd: systemctl is-active firewalld
+  register: firewalld_status
+  ignore_errors: true
+  when: "'RedHat' in ansible_distribution and ('8' in ansible_distribution_major_version or '9' in ansible_distribution_major_version)"
+    

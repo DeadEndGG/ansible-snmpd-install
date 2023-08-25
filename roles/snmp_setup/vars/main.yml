@@ -1,0 +1,2 @@
+snmp_rocommunity: "public"
+snmp_service_name: "snmp"

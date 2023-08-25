@@ -1,0 +1,29 @@
+---
+- name: Check OS and Install SNMP if needed
+  hosts: all
+  gather_facts: true
+  become: yes
+
+  tasks:
+    - name: Print OS info
+      debug:
+        msg: "OS is {{ ansible_facts['os_family'] }} version {{ ansible_facts['distribution_version'] }}"
+    
+    - name: Check if the OS is RedHat 8.8 or 9.2
+      when: ansible_facts['os_family'] == "RedHat" and (ansible_facts['distribution_version'] == "8.8" or ansible_facts['distribution_version'] == "9.2")
+      block:
+        - name: Check if SNMP is installed
+          yum:
+            list: net-snmp
+          register: snmp_installed
+
+        - name: Print SNMP check result
+          debug:
+            var: snmp_installed
+
+        - name: Install SNMP if not present
+          yum:
+            name: net-snmp
+            state: present
+          when: "'net-snmp' not in snmp_installed.results | map(attribute='name') | list"
+

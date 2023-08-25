@@ -1,0 +1,13 @@
+- include_vars: ../vars/main.yml
+
+- import_tasks: check_os.yml
+- import_tasks: check_snmpd.yml
+- import_tasks: check_utils.yml
+- import_tasks: install_packages.yml
+- import_tasks: display_messages.yml
+- import_tasks: update_snmpd_config.yml
+- import_tasks: restart_snmpd_service.yml
+- import_tasks: firewalld_status.yml
+- import_tasks: firewalld_check_service.yml
+- import_tasks: firewalld_open_service.yml
+- import_tasks: firewalld_reload.yml

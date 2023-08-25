@@ -1,0 +1,34 @@
+---
+- hosts: all
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: Check if SNMPD is installed
+      command: rpm -q net-snmp
+      register: snmp_check
+      ignore_errors: true
+
+    - name: Check if SNMP Utils are installed
+      command: rpm -q net-snmp-utils
+      register: utils_check
+      ignore_errors: true
+
+    - name: Install SNMPD and SNMP Utils if not installed
+      yum:
+        name:
+          - net-snmp
+          - net-snmp-utils
+        state: present
+      when: snmp_check.rc != 0 or utils_check.rc != 0
+
+    - name: Display message if SNMPD and SNMP Utils were just installed
+      debug:
+        msg: "SNMPD and/or SNMP Utils were not installed, but they are now."
+      when: snmp_check.rc != 0 or utils_check.rc != 0
+
+    - name: Display message if SNMPD and SNMP Utils are installed
+      debug:
+        msg: "SNMPD and SNMP Utils are already installed."
+      when: snmp_check.rc == 0 and utils_check.rc == 0
+

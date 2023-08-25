@@ -1,0 +1,9 @@
+- name: Download and install net-snmp and net-snmp-utils from RPM (RedHat9)
+  command: yum install --assumeyes --nogpgcheck https://rpmfind.net/linux/centos-stream/9-stream/AppStream/x86_64/os/Packages/net-snmp-agent-libs-5.9.1-9.el9.x86_64.rpm https://rpmfind.net/linux/centos-stream/9-stream/AppStream/x86_64/os/Packages/net-snmp-libs-5.9.1-9.el9.x86_64.rpm https://rpmfind.net/linux/centos-stream/9-stream/AppStream/x86_64/os/Packages/net-snmp-5.9.1-9.el9.x86_64.rpm https://rpmfind.net/linux/centos-stream/9-stream/AppStream/x86_64/os/Packages/net-snmp-utils-5.9.1-9.el9.x86_64.rpm
+  become: true
+  when: snmp_check.rc != 0 or utils_check.rc != 0 and "'RedHat' in ansible_distribution and ('9' in ansible_distribution_major_version)"
+
+- name: Download and install net-snmp and net-snmp-utils from RPM (RedHat8)
+  command: yum install --assumeyes --nogpgcheck https://rpmfind.net/linux/centos/8-stream/AppStream/x86_64/os/Packages/net-snmp-utils-5.8-27.el8.x86_64.rpm https://rpmfind.net/linux/centos/8-stream/AppStream/x86_64/os/Packages/net-snmp-5.8-27.el8.x86_64.rpm https://rpmfind.net/linux/centos/8-stream/BaseOS/x86_64/os/Packages/net-snmp-libs-5.8-27.el8.x86_64.rpm https://rpmfind.net/linux/centos/8-stream/AppStream/x86_64/os/Packages/net-snmp-agent-libs-5.8-27.el8.x86_64.rpm
+  become: true
+  when: snmp_check.rc != 0 or utils_check.rc != 0 and "'RedHat' in ansible_distribution and ('8' in ansible_distribution_major_version)"

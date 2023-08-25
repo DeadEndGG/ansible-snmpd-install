@@ -1,0 +1,14 @@
+- name: Update packages
+  yum:
+    name: '*'
+    state: latest
+    update_cache: yes
+  become: true
+
+- name: Install SNMPD and SNMP Utils if not installed
+  yum:
+    name:
+      - net-snmp
+      - net-snmp-utils
+    state: present
+  when: snmp_check.rc != 0 or utils_check.rc != 0 and ('8' in ansible_distribution_major_version or '9' in ansible_distribution_major_version)"

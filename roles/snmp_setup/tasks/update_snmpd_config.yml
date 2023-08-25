@@ -1,0 +1,7 @@
+- name: Ensure rocommunity is set in snmpd.conf
+  lineinfile:
+    path: /etc/snmp/snmpd.conf
+    line: "rocommunity {{ snmp_rocommunity }}"
+    insertbefore: 'EOF'
+  register: snmpd_conf_update
+  when: "'RedHat' in ansible_distribution and ('8' in ansible_distribution_major_version or '9' in ansible_distribution_major_version)"

@@ -1,0 +1,9 @@
+- name: Display message if SNMPD and SNMP Utils were just installed
+  debug:
+    msg: "SNMPD and/or SNMP Utils were not installed, but they are now."
+  when: snmp_check.rc != 0 or utils_check.rc != 0 and ('RedHat' in ansible_distribution and ('8' in ansible_distribution_major_version or '9' in ansible_distribution_major_version))
+
+- name: Display message if SNMPD and SNMP Utils are installed
+  debug:
+    msg: "SNMPD and SNMP Utils are already installed."
+  when: snmp_check.rc == 0 and utils_check.rc == 0 and ('RedHat' in ansible_distribution and ('8' in ansible_distribution_major_version or '9' in ansible_distribution_major_version))
